@@ -83,7 +83,7 @@ function loadLoginForm () {
         register.value = 'Registering...';
 
     };
-}
+
 
 function loadLoggedInUser (username) {
   document.getElementById('login_area').innerHTML=` `;
