@@ -240,6 +240,8 @@ app.post('/create-user', function (req, res) {
    // username, password
    // {"username": "tanmai", "password": "password"}
    // JSON
+   var username = req.body.username;
+   var password = req.body.password;
    if(!username.trim() || !password.trim()){
      res.status(400).send('Username or password field blank.');   //Err if blank,tabs and space detected.
   }
