@@ -27,10 +27,17 @@ function loadLoginForm () {
               } else if (request.status === 500) {
                   alert('Something went wrong on the server');
                   submit.value = 'Login';
-              } else {
+              } else if(request.status===400)
+              {
+              alert('Sorry Username and Passwords cannot be empty');
+                  
+              }
+              }
+              else {
                   alert('Something went wrong on the server');
                   submit.value = 'Login';
               }
+              
               loadLogin();
           }
           // Not done yet
@@ -60,7 +67,12 @@ function loadLoginForm () {
               if (request.status === 200) {
                   alert('User created successfully');
                   register.value = 'Registered!';
-              } else {
+              } else if(request.status===400)
+              {
+              alert('Sorry Username and Passwords cannot be empty');
+                  
+              } 
+              else {
                   alert('Could not register the user');
                   register.value = 'Register';
               }
