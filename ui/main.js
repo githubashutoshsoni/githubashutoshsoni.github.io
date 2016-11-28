@@ -49,7 +49,7 @@ function loadLoginForm () {
         request.send(JSON.stringify({username: username, password: password}));
         submit.value = 'Logging in...';
 
-    };
+    
 
     var register = document.getElementById('register_btn');
     register.onclick = function () {
@@ -83,7 +83,7 @@ function loadLoginForm () {
         register.value = 'Registering...';
 
     };
-
+};
 
 function loadLoggedInUser (username) {
   document.getElementById('login_area').innerHTML=` `;
