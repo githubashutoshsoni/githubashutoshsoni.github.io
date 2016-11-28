@@ -1,4 +1,3 @@
-
 function loadLoginForm () {
     var loginHtml = `
         <h2 >Login/Register to write your own article</h2>
@@ -27,17 +26,14 @@ function loadLoginForm () {
               } else if (request.status === 500) {
                   alert('Something went wrong on the server');
                   submit.value = 'Login';
-              }
-              }
-              else {
+              } else {
                   alert('Something went wrong on the server');
                   submit.value = 'Login';
               }
-              
               loadLogin();
           }
           // Not done yet
-        
+        };
 
         // Make the request
         var username = document.getElementById('username').value;
@@ -48,8 +44,8 @@ function loadLoginForm () {
         request.setRequestHeader('Content-Type', 'application/json');
         request.send(JSON.stringify({username: username, password: password}));
         submit.value = 'Logging in...';
-    }; 
-    
+
+    };
 
     var register = document.getElementById('register_btn');
     register.onclick = function () {
@@ -63,9 +59,7 @@ function loadLoginForm () {
               if (request.status === 200) {
                   alert('User created successfully');
                   register.value = 'Registered!';
-              } 
-             
-              else {
+              } else {
                   alert('Could not register the user');
                   register.value = 'Register';
               }
@@ -83,7 +77,7 @@ function loadLoginForm () {
         register.value = 'Registering...';
 
     };
-};
+}
 
 function loadLoggedInUser (username) {
   document.getElementById('login_area').innerHTML=` `;
@@ -98,7 +92,6 @@ function LoadWriteArticles(){
 document.getElementById('wr-article').innerHTML=`
   <div class="text-left">
      <h5>Submit an Article</h5>
-
     <input type="text" id="article_title"  cols="30" placeholder="Enter your title here..."></textarea>
     <br/>
     <input type="text" id="article_heading" cols="30"  placeholder="Enter your heading here..."></textarea>
@@ -188,13 +181,11 @@ function loadArticles () {
 function loadrules()
 {
   document.getElementById('rules').innerHTML=`<ol class="pull-left">
-
     <li> you can write articles and get recognized.</li>
     <li> You can Improve Your English.</li>
     <li> Your articles can be read by friends if they Register on this site as well.</li>
     <li> Articles You write can be seen by anyone.</li>
         </ol>
-
   `
   return;
 }
