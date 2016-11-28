@@ -27,10 +27,6 @@ function loadLoginForm () {
               } else if (request.status === 500) {
                   alert('Something went wrong on the server');
                   submit.value = 'Login';
-              } else if(request.status===400)
-              {
-              alert('Sorry Username and Passwords cannot be empty');
-                  
               }
               }
               else {
@@ -68,11 +64,7 @@ function loadLoginForm () {
                   alert('User created successfully');
                   register.value = 'Registered!';
               } 
-              else if(request.status===400)
-              {
-              alert('Sorry Username and Passwords cannot be empty');
-                  
-              } 
+             
               else {
                   alert('Could not register the user');
                   register.value = 'Register';
