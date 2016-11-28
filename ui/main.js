@@ -67,7 +67,8 @@ function loadLoginForm () {
               if (request.status === 200) {
                   alert('User created successfully');
                   register.value = 'Registered!';
-              } else if(request.status===400)
+              } 
+              else if(request.status===400)
               {
               alert('Sorry Username and Passwords cannot be empty');
                   
