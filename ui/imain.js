@@ -1,8 +1,9 @@
 
+
               loadCommentForm();
 
 function loadCommentForm () {
-  var comment = `  <hr><p class="h3">Give feedback of my work. You need to be logged in to access this feature </p>
+  var comment = `  <hr><p class="h3">Give feedback of my work. You need to be looged in to access this feature </p>
   <textarea id="comment_text1" rows="5" cols="100" placeholder="Type here..."></textarea>
   <br>
   <input class="btn btn-primary" type="submit " id="submit" value="Submit" />
