@@ -37,7 +37,7 @@ function loadLoginForm () {
               loadLogin();
           }
           // Not done yet
-        };
+        
 
         // Make the request
         var username = document.getElementById('username').value;
@@ -48,7 +48,7 @@ function loadLoginForm () {
         request.setRequestHeader('Content-Type', 'application/json');
         request.send(JSON.stringify({username: username, password: password}));
         submit.value = 'Logging in...';
-
+    }; 
     
 
     var register = document.getElementById('register_btn');
