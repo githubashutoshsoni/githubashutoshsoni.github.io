@@ -13,7 +13,6 @@ var config = {
     port: '5432',
     password: process.env.DB_PASSWORD
 };
-
 var app = express();
 app.use(morgan('combined'));
 app.use(bodyParser.json());
@@ -21,6 +20,66 @@ app.use(session({
     secret: 'someRandomSecretValue',
     cookie: { maxAge: 1000 * 60 * 60 * 24 * 30}
 }));
+
+
+function createTemplate (data) {
+    var title = data.title;
+    var date = data.date;
+    var heading = data.heading;
+    var content = data.content;
+
+    var htmlTemplate = `
+    <html>
+      <head>
+          <title>
+              ${title}
+          </title>
+          <meta name="viewport" content="width=device-width, initial-scale=1" />
+          <meta name="viewport" content="width=device-width ,initial scale=1">
+          <meta charset="utf-8">
+       <meta name="viewport" content="width=device-width, initial-scale=1">
+       <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+       <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" integrity="sha256-MfvZlkHCEqatNoGiOXveE8FIwMzZg4W85qfrfIFBfYc= sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
+       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
+             <link href="/ui/style.css" rel="stylesheet" />
+
+      </head>
+      <body>
+          <div class="container">
+              <div>
+                  <a href="/">Home</a>
+              </div>
+              <hr/>
+              <h3 >
+                  ${heading}
+              </h3>
+              <div class="glyphicon glyphicon-time">
+                  ${date.toLocaleDateString()}
+              </div>
+              <br>
+              <div class="container well well-sm ">
+                ${content}
+              </div>
+              <hr/>
+              <h4>Comments</h4>
+              <div id="comment_form" class="">
+              </div>
+
+              <div id="comments" >
+                Loading comments...
+              </div>
+              </div>
+
+          <script type="text/javascript" src="/ui/article.js"></script>
+      </body>
+    </html>
+    `;
+    return htmlTemplate;
+}
 
 
 function createTemplate (data) {
@@ -91,9 +150,9 @@ function createTemplate (data) {
 
           </div>
           <footer>
-          
-          
-          
+
+
+
           </footer>
           <script type="text/javascript" src="/ui/article.js"></script>
       </body>
@@ -105,6 +164,62 @@ function createTemplate (data) {
 
 app.get('/', function (req, res) {
   res.sendFile(path.join(__dirname, 'ui', 'index.html'));
+});
+
+app.get('/ui/Introduction1', function (req, res) {
+ var htmlTemplate = `<!doctype html>
+<html>
+    <head>
+        <link href="/ui/style.css" rel="stylesheet" />
+    </head>
+    <body>
+        <div class="container">
+            <div class="center">
+                <img id='pp' src="http://goo.gl/L0pk6U" class="img-medium"/>
+            </div>
+            <h3>About me</h3>
+            <p>
+
+                Hi. My name is Ashutosh Soni.<br>
+                I am a student.<br>
+                I love programming.<br>
+                I love hacking.<br>
+                I am looking forward to developing more interactive webapp(s).<br>
+
+
+            </p>
+
+            <hr/>
+            <h3>Currently:</h3>
+            <p>
+                  Student in SRMU
+            </p>
+            <hr/>
+            <h3>
+            Home Town
+            </h3>
+            <p>
+                Jaipur
+            </p>
+            <hr/>
+            <h3>
+                Hobbies
+            </h3>
+            <p> Games, Movies, Gardening, Music, Tv, Programming </p>
+
+            <hr/>
+
+            <input type="submit" value="click for more info" id="sub"> <span id="bigdata">hello </span></input>
+            <input type="text" value="comment" id="icomment"> </input>
+            <ul id="usercomment" ></ul>
+
+        </div>
+        <script type="text/javascript" src="/ui/main.js">
+        </script>
+    </body>
+</html>`;
+    return htmlTemplate;
+
 });
 
 
@@ -126,10 +241,8 @@ app.post('/create-user', function (req, res) {
    // JSON
    var username = req.body.username;
    var password = req.body.password;
-   if(!username.trim() || !password.trim()){
-     res.status(400).send('Username or password field blank.');   //Err if blank,tabs and space detected.
-  } else{
-  
+
+
    var salt = crypto.randomBytes(128).toString('hex');
    var dbString = hash(password, salt);
    pool.query('INSERT INTO "user" (username, password) VALUES ($1, $2)', [username, dbString], function (err, result) {
@@ -139,16 +252,14 @@ app.post('/create-user', function (req, res) {
           res.send('User successfully created: ' + username);
       }
    });
-  }
+
 });
 
 app.post('/login', function (req, res) {
    var username = req.body.username;
    var password = req.body.password;
-   if(!username.trim() || !password.trim()){
-     res.status(400).send('Username or password field blank.');   //Err if blank,tabs and space detected.
-  } else{
-   
+
+
          pool.query('SELECT * FROM "user" WHERE username = $1', [username], function (err, result) {
       if (err) {
           res.status(500).send(err.toString());
@@ -161,23 +272,23 @@ app.post('/login', function (req, res) {
               var salt = dbString.split('$')[2];
               var hashedPassword = hash(password, salt); // Creating a hash based on the password submitted and the original salt
               if (hashedPassword === dbString) {
-                
+
                 // Set the session
                 req.session.auth = {userId: result.rows[0].id};
                 // set cookie with a session id
                 // internally, on the server side, it maps the session id to an object
                 // { auth: {userId }}
-                
+
                 res.send('credentials correct!');
-                
+
               } else {
                 res.status(403).send('username/password is invalid');
               }
           }
       }
-        
+
    });
-  }
+
 });
 
 app.get('/check-login', function (req, res) {
@@ -187,7 +298,7 @@ app.get('/check-login', function (req, res) {
            if (err) {
               res.status(500).send(err.toString());
            } else {
-              res.send(result.rows[0].username);    
+              res.send(result.rows[0].username);
            }
        });
    } else {
@@ -251,7 +362,7 @@ app.post('/submit-comment/:articleName', function (req, res) {
                         });
                 }
             }
-       });     
+       });
     } else {
         res.status(403).send('Only logged in users can comment');
     }
@@ -286,7 +397,7 @@ app.listen(8080, function () {
 app.post('/intro-comment-submit', function (req, res) {
    // Check if the user is logged in
    var comment=req.body.usercomment;
-   
+
     if (req.session && req.session.auth && req.session.auth.userId) {
       pool.query('INSERT INTO comment VALUES ($1)', [comment], function (err, result) {
          if (err) {
@@ -297,7 +408,7 @@ app.post('/intro-comment-submit', function (req, res) {
          }
       });
 
-        
+
     } else {
         res.status(403).send('Only logged in users can comment');
     }
@@ -325,7 +436,7 @@ else{
   res.status(403).send('Only logged in users can comment');
 }
   });
-  
+
   app.post('/submit-article',function(req,res){
     if (req.session && req.session.auth && req.session.auth.userId){
       pool.query('insert into article (title,heading,content) values ($1,$2,$3)',[req.body.title,req.body.heading,req.body.content],function(err,result){
@@ -343,4 +454,3 @@ else{
       res.status(403).send('Only logged in users can comment');
     }
   });
-
