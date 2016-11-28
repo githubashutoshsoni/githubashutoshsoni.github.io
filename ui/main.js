@@ -19,9 +19,15 @@ function loadLoginForm () {
         request.onreadystatechange = function () {
           if (request.readyState === XMLHttpRequest.DONE) {
               // Take some action
+
               if (request.status === 200) {
                   submit.value = 'Sucess!';
-              } else if (request.status === 403) {
+                }
+                else if (request.status === 400) {
+                    alert('Empty credentials');
+                  submit.value = 'empty credentials. Try again?';
+              }
+                else if (request.status === 403) {
                   submit.value = 'Invalid credentials. Try again?';
               } else if (request.status === 500) {
                   alert('Something went wrong on the server');
@@ -38,8 +44,6 @@ function loadLoginForm () {
         // Make the request
         var username = document.getElementById('username').value;
         var password = document.getElementById('password').value;
-        console.log(username);
-        console.log(password);
         request.open('POST', '/login', true);
         request.setRequestHeader('Content-Type', 'application/json');
         request.send(JSON.stringify({username: username, password: password}));
@@ -59,7 +63,12 @@ function loadLoginForm () {
               if (request.status === 200) {
                   alert('User created successfully');
                   register.value = 'Registered!';
-              } else {
+              }
+              else if (request.status === 400) {
+                alert('Empty credentials');
+                submit.value = 'empty credentials. Try again?';
+                  }
+              else {
                   alert('Could not register the user');
                   register.value = 'Register';
               }
