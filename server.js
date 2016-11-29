@@ -22,64 +22,7 @@ app.use(session({
 }));
 
 
-function createTemplate (data) {
-    var title = data.title;
-    var date = data.date;
-    var heading = data.heading;
-    var content = data.content;
 
-    var htmlTemplate = `
-    <html>
-      <head>
-          <title>
-              ${title}
-          </title>
-          <meta name="viewport" content="width=device-width, initial-scale=1" />
-          <meta name="viewport" content="width=device-width ,initial scale=1">
-          <meta charset="utf-8">
-       <meta name="viewport" content="width=device-width, initial-scale=1">
-       <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
-       <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" integrity="sha256-MfvZlkHCEqatNoGiOXveE8FIwMzZg4W85qfrfIFBfYc= sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
-       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
-
-             <link href="/ui/style.css" rel="stylesheet" />
-
-      </head>
-      <body>
-          <div class="container">
-              <div>
-                  <a href="/">Home</a>
-              </div>
-              <hr/>
-              <h3 >
-                  ${heading}
-              </h3>
-              <div class="glyphicon glyphicon-time">
-                  ${date.toLocaleDateString()}
-              </div>
-              <br>
-              <div class="container well well-sm ">
-                ${content}
-              </div>
-              <hr/>
-              <h4>Comments</h4>
-              <div id="comment_form" class="">
-              </div>
-
-              <div id="comments" >
-                Loading comments...
-              </div>
-              </div>
-
-          <script type="text/javascript" src="/ui/article.js"></script>
-      </body>
-    </html>
-    `;
-    return htmlTemplate;
-}
 
 
 function createTemplate (data) {
@@ -245,6 +188,11 @@ app.post('/create-user', function (req, res) {
    if(!username.trim() || !password.trim()){
      res.status(400).send('Username or password field blank.');   //Err if blank,tabs and space detected.
   }
+
+  else if(!/^[a-zA-Z0-9_#.]+$/.test(username))  //If username contains other than a-z,A-Z,0-9 then true.
+         {
+                   res.status(401).send('Your username contains special characters other than _#.');
+          }
   else{
    var username = req.body.username;
    var password = req.body.password;
