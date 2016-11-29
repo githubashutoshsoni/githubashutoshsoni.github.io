@@ -27,6 +27,7 @@ function loadLoginForm () {
                     alert('Empty credentials');
                   submit.value = 'empty credentials. Try again?';
               }
+
                 else if (request.status === 403) {
                   submit.value = 'Invalid credentials. Try again?';
               } else if (request.status === 500) {
@@ -64,6 +65,10 @@ function loadLoginForm () {
                   alert('User created successfully');
                   register.value = 'Registered!';
               }
+              else if (request.status === 401) {
+                                alert('Special characters are not allowed ');
+                              submit.value = 'Try again?';
+                          }
               else if (request.status === 400) {
                 alert('Empty credentials');
                 submit.value = 'empty credentials. Try again?';
