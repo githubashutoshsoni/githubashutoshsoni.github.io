@@ -239,32 +239,36 @@ function loadrules()
       <div class="carousel-inner" role="listbox">
         <div class="item active">
           <img src="http://allbanglanewspaper.net/template//slider/images/2.jpg" alt="Chania" width="460" height="345">
-          <div class="carousel-content">
-       <p>Read newspaper, books and other content and </p>
-     </div>
+          <div class="carousel-caption">
+        <h3>Newspaper</h3>
+        <p>Read Newspaper.</p>
+      </div>
+
         </div>
 
         <div class="item">
           <img src="http://www.pixelstalk.net/wp-content/uploads/2016/06/Book-Desktop-Wallpapers-HD.jpg" alt="Chania" width="460" height="345">
-          <div class="carousel-content">
-       <p>Read Books... I mean a lot of Books</p>
-     </div>
-        </div>
-
-        <div class="item">
-          <img src="http://allbanglanewspaper.net/template//slider/images/2.jpg" alt="Flower" width="460" height="345">
-          <div class="carousel-content">
-          <p>And again a lot of newspaper</p>
-          </div>
+          <div class="carousel-caption">
+        <h3>Books</h3>
+        <p>Read books.</p>
+      </div>
 
         </div>
 
         <div class="item">
-          <img src="http://www.theblogstarter.com/wp-content/uploads/2016/01/start-your-blog-4-steps.png" alt="Flower" width="460" height="345">
-          <div class="carousel-content">
-          <p>Type all your articles you read and post it over here</p>
-          </div>
+          <img src="http://cdn.skilledup.com/wp-content/uploads/2014/10/Blog-Promotion-101-Illustration-Feature_1290x688_KL.jpg" alt="Flower" width="460" height="345">
+          <div class="carousel-caption">
+        <h3>Make your blog</h3>
+        <p>Write your own blog here.</p>
+        </div>
 
+        </div>
+
+        <div class="item">
+          <img src="http://www.blogherald.com/wp-content/uploads/2016/09/business_blog-700x400.jpg" alt="Flower" width="460" height="345">
+          <div class="carousel-caption">
+        <h3>What you're waiting for?</h3>
+        <p>Go ahead and start typing your article straight away.</p>
         </div>
       </div>
 
