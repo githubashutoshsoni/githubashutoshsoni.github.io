@@ -4,6 +4,7 @@ function loadLoginForm () {
         <input class="form-control input-lg" type="text" id="username" placeholder="username" /><br>
         <input  type="password" class="form-control input-lg" id="password" placeholder="password" />
         <br/><br/>
+        <div id="status"></div>
         <input  type="submit" class="btn btn-primary btn-lg btn-block"  id="login_btn" value="Login" /><br>
         <input type="submit" class="btn btn-primary btn-lg btn-block" id="register_btn" value="Register" />
         `;
@@ -25,6 +26,10 @@ function loadLoginForm () {
                 }
                 else if (request.status === 400) {
                     alert('Empty credentials');
+                    document.getElementById("subm").innterHTML=` <div class="alert alert-danger">
+                       <strong>Danger!</strong> Indicates a dangerous or potentially negative action.
+                     </div>`;
+                     console.log('subm');
                   submit.value = 'empty credentials. Try again?';
               }
 
@@ -62,15 +67,33 @@ function loadLoginForm () {
           if (request.readyState === XMLHttpRequest.DONE) {
               // Take some action
               if (request.status === 200) {
-                  alert('User created successfully');
                   register.value = 'Registered!';
               }
               else if (request.status === 401) {
-                                alert('Special characters are not allowed ');
+              var stat=  document.getElementById('status');
+              stat.innterHTML=`<div class="container">
+  <h2>Alerts</h2>
+  <div class="alert alert-success">
+    <strong>Success!</strong> This alert box could indicate a successful or positive action.
+  </div>
+  <div class="alert alert-info">
+    <strong>Info!</strong> This alert box could indicate a neutral informative change or action.
+  </div>
+  <div class="alert alert-warning">
+    <strong>Warning!</strong> This alert box could indicate a warning that might need attention.
+  </div>
+  <div class="alert alert-danger">
+    <strong>Danger!</strong> This alert box could indicate a dangerous or potentially negative action.
+  </div>
+</div>
+`;
+                 console.log(stat);
+                 alert('username password contating special')
                               submit.value = 'Try again?';
                           }
               else if (request.status === 400) {
                 alert('Empty credentials');
+
                 submit.value = 'empty credentials. Try again?';
                   }
               else {
@@ -83,8 +106,6 @@ function loadLoginForm () {
         // Make the request
         var username = document.getElementById('username').value;
         var password = document.getElementById('password').value;
-        console.log(username);
-        console.log(password);
         request.open('POST', '/create-user', true);
         request.setRequestHeader('Content-Type', 'application/json');
         request.send(JSON.stringify({username: username, password: password}));
