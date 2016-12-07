@@ -143,50 +143,50 @@ function loadLoggedInUser (username) {
     `;
      LoadWriteArticles();
 }
-function LoadWriteArticles(){
-document.getElementById('wr-article').innerHTML=`
-  <div class="text-left">
-     <h5>Submit an Article</h5>
-    <input type="text" id="article_title"  cols="30" placeholder="Enter your title here..."></textarea>
-    <br/>
-    <input type="text" id="article_heading" cols="30"  placeholder="Enter your heading here..."></textarea>
-    <br>
-    <textarea id="article_content" rows="4" cols="70"  placeholder="Enter your content here..."></textarea>
-    <br>
-    <br/>
-    <input class="btn btn-primary " type="submit" id="submit" value="Submit" />
-    <br>
-</div>
-<br>
-    `;
-    var submit =document.getElementById('submit');
-    submit.onclick= function(){
-var request= new XMLHttpRequest();
-request.onreadystatechange=function(){
-if(request.readyState===XMLHttpRequest.DONE)
-{
-    if(request.status===200)
-    {
-      alert('Article submitted!');
-      submit.value='submited';
-    }
-    else{
-      alert('could not submit articles');
-    }
-};
-
-}
-var title=document.getElementById('article_title').value;
-var heading=document.getElementById('article_heading').value;
-var content=document.getElementById('article_content').value;
-request.open('POST','/submit-article');
-request.setRequestHeader('Content-Type','application/json');
-request.send(JSON.stringify({title:title,heading:heading,content:content}));
-submit.value='submitting wait...'
+  function LoadWriteArticles(){
+  document.getElementById('wr-article').innerHTML=`
+    <div class="text-left">
+       <h5>Submit an Article</h5>
+      <input type="text" id="article_title"  cols="30" placeholder="Enter your title here..."></textarea>
+      <br/>
+      <input type="text" id="article_heading" cols="30"  placeholder="Enter your heading here..."></textarea>
+      <br>
+      <textarea id="article_content" rows="4" cols="70"  placeholder="Enter your content here..."></textarea>
+      <br>
+      <br/>
+      <input class="btn btn-primary " type="submit" id="submit" value="Submit" />
+      <br>
+  </div>
+  <br>
+      `;
+      var submit =document.getElementById('submit');
+      submit.onclick= function(){
+  var request= new XMLHttpRequest();
+  request.onreadystatechange=function(){
+  if(request.readyState===XMLHttpRequest.DONE)
+  {
+      if(request.status===200)
+      {
+        alert('Article submitted!');
+        submit.value='submited';
+      }
+      else{
+        alert('could not submit articles');
+      }
   };
 
-  return;
-}
+  }
+  var title=document.getElementById('article_title').value;
+  var heading=document.getElementById('article_heading').value;
+  var content=document.getElementById('article_content').value;
+  request.open('POST','/submit-article');
+  request.setRequestHeader('Content-Type','application/json');
+  request.send(JSON.stringify({title:title,heading:heading,content:content}));
+  submit.value='submitting wait...'
+    };
+
+    return;
+  }
 function loadLogin () {
     // Check if the user is already logged in
     var request = new XMLHttpRequest();
