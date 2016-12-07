@@ -1,15 +1,14 @@
 function loadLoginForm () {
     var loginHtml = `
         <h2 >Login/Register to write your own article</h2>
+        <div id="status"></div>
         <input class="form-control input-lg" type="text" id="username" placeholder="username" /><br>
         <input  type="password" class="form-control input-lg" id="password" placeholder="password" />
         <br/><br/>
-        <div id="status"></div>
         <input  type="submit" class="btn btn-primary btn-lg btn-block"  id="login_btn" value="Login" /><br>
         <input type="submit" class="btn btn-primary btn-lg btn-block" id="register_btn" value="Register" />
         `;
-    document.getElementById('login_area').innerHTML = loginHtml;
-
+        $('#login_area').html(loginHtml);
     // Submit username/password to login
     var submit = document.getElementById('login_btn');
     submit.onclick = function () {
@@ -22,13 +21,20 @@ function loadLoginForm () {
               // Take some action
 
               if (request.status === 200) {
-                  submit.value = 'Sucess!';
+
+                       submit.value = 'Sucess!';
                 }
                 else if (request.status === 400) {
                     alert('Empty credentials');
-                    document.getElementById("subm").innterHTML=` <div class="alert alert-danger">
-                       <strong>Danger!</strong> Indicates a dangerous or potentially negative action.
-                     </div>`;
+
+                    var stat=`<div class="container">
+                    <h2>Alert</h2>
+                    <div class="alert alert-danger">
+                    <strong>Warning!</strong> You cannot have empty characters in username. Please type your username or password
+                    </div>
+                    </div>
+                    `;  $('#status').html(stat);
+
                      console.log('subm');
                   submit.value = 'empty credentials. Try again?';
               }
@@ -67,37 +73,51 @@ function loadLoginForm () {
           if (request.readyState === XMLHttpRequest.DONE) {
               // Take some action
               if (request.status === 200) {
+                var stat=`<div class="container">
+    <h2>Alerts</h2>
+    <div class="alert alert-success">
+      <strong>Success!</strong>successfully registered to our website
+    </div>
+    </div>`
+    ;
+    $('#status').html(stat).delay(2000);
+
                   register.value = 'Registered!';
               }
               else if (request.status === 401) {
-              var stat=  document.getElementById('status');
-              stat.innterHTML=`<div class="container">
-  <h2>Alerts</h2>
-  <div class="alert alert-success">
-    <strong>Success!</strong> This alert box could indicate a successful or positive action.
-  </div>
-  <div class="alert alert-info">
-    <strong>Info!</strong> This alert box could indicate a neutral informative change or action.
-  </div>
-  <div class="alert alert-warning">
-    <strong>Warning!</strong> This alert box could indicate a warning that might need attention.
-  </div>
+              var stat=`<div class="container">
+  <h2>Alert</h2>
   <div class="alert alert-danger">
-    <strong>Danger!</strong> This alert box could indicate a dangerous or potentially negative action.
+  <strong>Danger!</strong> You cannot have special characters in username
   </div>
 </div>
-`;
+`;  $('#status').html(stat);
+
                  console.log(stat);
-                 alert('username password contating special')
                               submit.value = 'Try again?';
                           }
               else if (request.status === 400) {
                 alert('Empty credentials');
 
+                var stat=`<div class="container">
+                <h2>Alert</h2>
+                <div class="alert alert-danger">
+                <strong>Danger!</strong> You cannot have empty characters in username or password! try again :)
+                </div>
+                </div>
+                `;  $('#status').html(stat);
+
                 submit.value = 'empty credentials. Try again?';
                   }
               else {
-                  alert('Could not register the user');
+                var stat=`<div class="container">
+                <h2>Alert</h2>
+                <div class="alert alert-danger">
+                <strong>Username already exists!</strong> username already exists try again with a different username :)
+                </div>
+                </div>
+                `;  $('#status').html(stat);
+
                   register.value = 'Register';
               }
           }
