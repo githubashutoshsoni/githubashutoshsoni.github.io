@@ -5,7 +5,7 @@ var Pool = require('pg').Pool;
 var crypto = require('crypto');
 var bodyParser = require('body-parser');
 var session = require('express-session');
-
+var usern;
 var config = {
     user: 'githubashutoshsoni',
     database: 'githubashutoshsoni',
@@ -13,7 +13,6 @@ var config = {
     port: '5432',
     password: process.env.DB_PASSWORD
 };
-
 var app = express();
 app.use(morgan('combined'));
 app.use(bodyParser.json());
@@ -250,6 +249,7 @@ app.get('/check-login', function (req, res) {
            if (err) {
               res.status(500).send(err.toString());
            } else {
+             usern=result.rows[0].username
               res.send(result.rows[0].username);
            }
        });
@@ -458,17 +458,26 @@ else{
   });
 
 
-  app.post('/submit-article',function(req,res){
+app.post('/submit-article',function(req,res){
     if (req.session && req.session.auth && req.session.auth.userId){
-      pool.query('insert into article (title,heading,content) values ($1,$2,$3)',[req.body.title,req.body.heading,req.body.content],function(err,result){
-        if(err){
-          console.log(err);
-          res.status(500).send(err.toString());
 
-        }
-        else{
-          res.status(200).send('Article-Inserted successfully');
-        }
+      pool.query('SELECT * FROM "user" WHERE id = $1', [req.session.auth.userId], function (err, result) {
+          if (err) {
+             res.status(500).send(err.toString());
+          } else {
+             var usern=result.rows[0].username;
+             console.log(usern);
+                   pool.query('insert into article (title,heading,content,username) values ($1,$2,$3,$4)',[req.body.title,req.body.heading,req.body.content,usern],function(err,result){
+                     if(err){
+                       console.log(err);
+                       res.status(500).send(err.toString());
+
+                     }
+                     else{
+                       res.status(200).send('Article-Inserted successfully');
+                     }
+                   });
+          }
       });
     }
     else{
