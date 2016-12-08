@@ -258,7 +258,7 @@ function loadrules()
       <!-- Wrapper for slides -->
       <div class="carousel-inner" role="listbox">
         <div class="item active">
-          <img src="http://allbanglanewspaper.net/template//slider/images/2.jpg" alt="Chania" width="460" height="345">
+          <img src="/ui/newspaper.jpg" alt="newspaper" width="460" height="345">
           <div class="carousel-caption">
         <h3>Newspaper</h3>
         <p>Read Newspaper.</p>
@@ -267,7 +267,7 @@ function loadrules()
         </div>
 
         <div class="item">
-          <img src="http://www.pixelstalk.net/wp-content/uploads/2016/06/Book-Desktop-Wallpapers-HD.jpg" alt="Chania" width="460" height="345">
+          <img src="/ui/book.jpg" alt="books" width="460" height="345">
           <div class="carousel-caption">
         <h3>Books</h3>
         <p>Read books.</p>
@@ -276,7 +276,7 @@ function loadrules()
         </div>
 
         <div class="item">
-          <img src="http://cdn.skilledup.com/wp-content/uploads/2014/10/Blog-Promotion-101-Illustration-Feature_1290x688_KL.jpg" alt="Flower" width="460" height="345">
+          <img src="/ui/blog.jpg" alt="blog" width="460" height="345">
           <div class="carousel-caption">
         <h3>Make your blog</h3>
         <p>Write your own blog here.</p>
@@ -285,7 +285,7 @@ function loadrules()
         </div>
 
         <div class="item">
-          <img src="http://www.blogherald.com/wp-content/uploads/2016/09/business_blog-700x400.jpg" alt="Flower" width="460" height="345">
+          <img src="/ui/blog2.jpg" alt="blog2" width="460" height="345">
           <div class="carousel-caption">
         <h3>What you're waiting for?</h3>
         <p>Go ahead and start typing your article straight away.</p>
