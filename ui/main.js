@@ -215,10 +215,12 @@ function loadArticles () {
                 var articleData = JSON.parse(this.responseText);
                 for (var i=0; i< articleData.length; i++) {
                     content += `<li>
+
                     <a href="/articles/${articleData[i].title}">${articleData[i].heading}<br></a> by ${articleData[i].username} (${articleData[i].date.split('T')[0]})
                   <br>
-                  <div class="well well-sm">Small Well
-                  ${articleData[i].content.substring(0,50)}
+
+                  <div class="well well-sm contents">
+                  ${articleData[i].content.substring(0,1000)}
                   </div>
                     </li>`;
                 }
