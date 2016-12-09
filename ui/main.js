@@ -215,8 +215,12 @@ function loadArticles () {
                 var articleData = JSON.parse(this.responseText);
                 for (var i=0; i< articleData.length; i++) {
                     content += `<li>
-                    <a href="/articles/${articleData[i].title}">${articleData[i].heading}<br> by ${articleData[i].username}<br></a>
-                    (${articleData[i].date.split('T')[0]})</li>`;
+                    <a href="/articles/${articleData[i].title}">${articleData[i].heading}<br></a> by ${articleData[i].username} (${articleData[i].date.split('T')[0]})
+                  <br>
+                  <div class="well well-sm">Small Well
+                  ${articleData[i].content.substring(0,50)}
+                  </div>
+                    </li>`;
                 }
                 content += "</ul>"
                 articles.innerHTML = content;
