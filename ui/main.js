@@ -218,9 +218,9 @@ function loadArticles () {
 
                     <a href="/articles/${articleData[i].title}">${articleData[i].heading}<br></a> by ${articleData[i].username} (${articleData[i].date.split('T')[0]})
                   <br>
-
                   <div class="well well-sm contents">
                   ${escapeHTML(articleData[i].content.substring(0,1000))}
+
                   </div>
                     </li>`;
                 }
@@ -271,10 +271,11 @@ function loadrules()
       <!-- Wrapper for slides -->
       <div class="carousel-inner" role="listbox">
         <div class="item active">
-          <img src="/ui/newspaper.jpg" alt="newspaper" width="460" height="345">
+          <img src="/ui/success.jpg" alt="newspaper" width="460" height="345">
           <div class="carousel-caption">
-        <h3>Newspaper</h3>
-        <p>Read Newspaper.</p>
+        <h3></h3>
+        <p>“No matter how busy you may think you are, you must find time for reading, or surrender yourself to self-chosen ignorance.”
+― Atwood H. Townsend"</p>
       </div>
 
         </div>
@@ -289,10 +290,12 @@ function loadrules()
         </div>
 
         <div class="item">
-          <img src="/ui/blog.jpg" alt="blog" width="460" height="345">
+          <img src="/ui/newspaper.jpg" alt="newspaper" width="460" height="345">
           <div class="carousel-caption">
-        <h3>Make your blog</h3>
-        <p>Write your own blog here.</p>
+        <h3>Newspaper</h3>
+        <p>“If you don't read the newspaper, you're uninformed. If you read the newspaper, you're mis-informed.”
+            ― Mark Twain
+            </p>
         </div>
 
         </div>
@@ -300,8 +303,10 @@ function loadrules()
         <div class="item">
           <img src="/ui/blog2.jpg" alt="blog2" width="460" height="345">
           <div class="carousel-caption">
+
         <h3>What you're waiting for?</h3>
         <p>Go ahead and start typing your article straight away.</p>
+
         </div>
       </div>
 

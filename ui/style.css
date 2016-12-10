@@ -10,11 +10,15 @@
   font-size:59px;
   color:#c0d1ed;
 }
+
+.content{
+  width:auto;
+  position: relative;
+}
 .item p{
-  font-family: tahoma;
-  color: #6086c4;
-  line-height: inherit;
-  font-weight: bold;
+  font-family: serif;
+  font-style: italic;
+  color: white;
   font-size: 25px;
   }
 #foot{
