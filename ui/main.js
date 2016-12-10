@@ -220,7 +220,7 @@ function loadArticles () {
                   <br>
 
                   <div class="well well-sm contents">
-                  ${articleData[i].content.substring(0,1000)}
+                  ${escapeHTML(articleData[i].content.substring(0,1000))}
                   </div>
                     </li>`;
                 }
@@ -236,6 +236,13 @@ function loadArticles () {
     request.send(null);
 }
 
+function escapeHTML (text)
+{
+    var $text = document.createTextNode(text);
+    var $div = document.createElement('div');
+    $div.appendChild($text);
+    return $div.innerHTML;
+}
 
 // The first thing to do is to check if the user is logged in!
 
