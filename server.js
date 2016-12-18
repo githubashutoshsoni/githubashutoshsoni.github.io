@@ -75,7 +75,7 @@ function createTemplate (data) {
                   ${date.toDateString()}
               </div>
               <br>
-              <div class="container well well-sm ">
+              <div id="content" class="container well well-sm ">
                 ${content}
               </div>
               <hr/>
@@ -93,6 +93,7 @@ function createTemplate (data) {
 
 
           </footer>
+          <script src="/ui/jquery.js"></script>
           <script type="text/javascript" src="/ui/article.js"></script>
       </body>
     </html>
@@ -259,16 +260,19 @@ app.get('/check-login', function (req, res) {
 });
 
 app.get('/logout', function (req, res) {
-   delete req.session.auth;
-   res.send('<html><body>Logged out!<br/><br/><a href="/">Back to home</a></body></html>');
+  delete req.session.auth;
+   res.sendFile(path.join(__dirname, 'ui', 'index.html'));
 });
 
 var pool = new Pool(config);
+var currentOffset;            // I HAVE ERROR HERE PLEASE LOOK INTO THIS SECTION AND AT LINE 284
+var rowCount=5;
 
 app.get('/get-articles', function (req, res) {
    // make a select request
    // return a response with the results
-   pool.query('SELECT * FROM article ORDER BY date DESC', function (err, result) {
+    currentOffset=currentOffset+5;
+   pool.query(' SELECT * FROM article LIMIT ($1,$2) ORDER BY date DESC',[currentOffset,rowCount], function (err, result) {
       if (err) {
           res.status(500).send(err.toString());
       } else {
@@ -276,6 +280,21 @@ app.get('/get-articles', function (req, res) {
       }
    });
 });
+
+app.get('/less-articles', function (req, res) {
+   // make a select request
+   // return a response with the results
+    currentOffset=currentOffset-5;
+    rowCount=5;
+   pool.query(' SELECT * FROM article LIMIT ($1,$2) ORDER BY date DESC',[currentOffset,rowCount], function (err, result) {
+      if (err) {
+          res.status(500).send(err.toString());
+      } else {
+          res.send(JSON.stringify(result.rows));
+      }
+   });
+});
+
 
 app.get('/get-comments/:articleName', function (req, res) {
    // make a select request
@@ -484,3 +503,17 @@ app.post('/submit-article',function(req,res){
       res.status(403).send('Only logged in users can comment');
     }
   });
+
+app.post('/namebio',function(req,res){
+  var name=req.body.name;
+  var bio=req.body.bio;
+  pool.query('insert into "user" values ($1,$2)',[name,bio],function(err,res){
+  if(err){
+    res.status(500).send(err.toString());
+  }
+  else{
+    res.status(200).send('success');
+  }
+  });
+
+});

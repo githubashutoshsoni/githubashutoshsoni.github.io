@@ -1,5 +1,6 @@
 function loadLoginForm () {
     var loginHtml = `
+
         <h2 >Login/Register to write your own article</h2>
         <div id="status"></div>
         <input class="form-control input-lg" type="text" id="username" placeholder="username" /><br>
@@ -206,34 +207,71 @@ function loadLogin () {
 
 function loadArticles () {
         // Check if the user is already logged in
-    var request = new XMLHttpRequest();
-    request.onreadystatechange = function () {
-        if (request.readyState === XMLHttpRequest.DONE) {
-            var articles = document.getElementById('articles');
-            if (request.status === 200) {
-                var content = '<ul>';
-                var articleData = JSON.parse(this.responseText);
-                for (var i=0; i< articleData.length; i++) {
-                    content += `<li>
+var more=document.getElementById("m_article");
+more.onclick=function () {
+  var request = new XMLHttpRequest();
+  request.onreadystatechange = function () {
+      if (request.readyState === XMLHttpRequest.DONE) {
+          var articles = document.getElementById('articles');
+          if (request.status === 200) {
+              var content = '<ul>';
+              var articleData = JSON.parse(this.responseText);
+              for (var i=0; i< articleData.length; i++) {
+                  content += `<li>
 
-                    <a href="/articles/${articleData[i].title}">${articleData[i].heading}<br></a> by ${articleData[i].username} (${articleData[i].date.split('T')[0]})
-                  <br>
-                  <div class="well well-sm contents">
-                  ${escapeHTML(articleData[i].content.substring(0,1000))}
+                  <a href="/articles/${articleData[i].title}">${articleData[i].heading}<br></a> by ${articleData[i].username} (${articleData[i].date.split('T')[0]})
+                <br>
+                <div class="well well-sm contents">
+                ${escapeHTML(articleData[i].content.substring(0,1000))}
 
-                  </div>
-                    </li>`;
-                }
-                content += "</ul>"
-                articles.innerHTML = content;
-            } else {
-                articles.innerHTML('Oops! Could not load all articles!')
-            }
-        }
-    };
+                </div>
+                  </li>`;
+              }
+              content += "</ul>"
+              articles.innerHTML = content;
+          } else {
+              articles.innerHTML('Oops! Could not load all articles!')
+          }
+      }
+  };
 
-    request.open('GET', '/get-articles', true);
-    request.send(null);
+  request.open('GET', '/get-articles', true);
+  request.send(null);
+}
+var less=document.getElementById("l_article");
+less.onclick=function () {
+  var request = new XMLHttpRequest();
+  request.onreadystatechange = function () {
+      if (request.readyState === XMLHttpRequest.DONE) {
+          var articles = document.getElementById('articles');
+          if (request.status === 200) {
+              var content = '<ul>';
+              var articleData = JSON.parse(this.responseText);
+              for (var i=0; i< articleData.length; i++) {
+                  content += `<li>
+
+                  <a href="/articles/${articleData[i].title}">${articleData[i].heading}<br></a> by ${articleData[i].username} (${articleData[i].date.split('T')[0]})
+                <br>
+                <div class="well well-sm contents">
+                ${escapeHTML(articleData[i].content.substring(0,1000))}
+
+                </div>
+                  </li>`;
+              }
+              content += "</ul>"
+              articles.innerHTML = content;
+          } else {
+              articles.innerHTML('Oops! Could not load all articles!')
+          }
+      }
+  };
+
+  request.open('GET', '/less-articles', true);
+  request.send(null);
+}
+
+
+
 }
 
 function escapeHTML (text)
