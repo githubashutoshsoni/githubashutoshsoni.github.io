@@ -12,8 +12,7 @@ var config = {
     host: 'db.imad.hasura-app.io',
     port: '5432',
     password: process.env.DB_PASSWORD
-};
-var app = express();
+};var app = express();
 app.use(morgan('combined'));
 app.use(bodyParser.json());
 app.use(session({
@@ -265,14 +264,14 @@ app.get('/logout', function (req, res) {
 });
 
 var pool = new Pool(config);
-var currentOffset;            // I HAVE ERROR HERE PLEASE LOOK INTO THIS SECTION AND AT LINE 284
+var currentOffset=5;            // I HAVE ERROR HERE PLEASE LOOK INTO THIS SECTION AND AT LINE 284
 var rowCount=5;
 
 app.get('/get-articles', function (req, res) {
    // make a select request
    // return a response with the results
     currentOffset=currentOffset+5;
-   pool.query(' SELECT * FROM article LIMIT ($1,$2) ORDER BY date DESC',[currentOffset,rowCount], function (err, result) {
+   pool.query(' SELECT * FROM article ORDER BY date DESC LIMIT ($1)',[currentOffset], function (err, result) {
       if (err) {
           res.status(500).send(err.toString());
       } else {
@@ -286,7 +285,7 @@ app.get('/less-articles', function (req, res) {
    // return a response with the results
     currentOffset=currentOffset-5;
     rowCount=5;
-   pool.query(' SELECT * FROM article LIMIT ($1,$2) ORDER BY date DESC',[currentOffset,rowCount], function (err, result) {
+   pool.query(' SELECT * FROM article ORDER BY date DESC LIMIT ($1)',[currentOffset], function (err, result) {
       if (err) {
           res.status(500).send(err.toString());
       } else {
