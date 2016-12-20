@@ -12,7 +12,8 @@ var config = {
     host: 'db.imad.hasura-app.io',
     port: '5432',
     password: process.env.DB_PASSWORD
-};var app = express();
+};
+var app = express();
 app.use(morgan('combined'));
 app.use(bodyParser.json());
 app.use(session({
@@ -104,6 +105,13 @@ function createTemplate (data) {
 app.get('/', function (req, res) {
   res.sendFile(path.join(__dirname, 'ui', 'index.html'));
 });
+
+
+app.get('/chatbot', function (req, res) {
+  res.sendFile(path.join(__dirname, 'ui', 'chatbot'));
+});
+
+
 
 app.get('/ui/Introduction1', function (req, res) {
  var htmlTemplate = `<!doctype html>
@@ -264,7 +272,7 @@ app.get('/logout', function (req, res) {
 });
 
 var pool = new Pool(config);
-var currentOffset=5;            // I HAVE ERROR HERE PLEASE LOOK INTO THIS SECTION AND AT LINE 284
+var currentOffset=0;            // I HAVE ERROR HERE PLEASE LOOK INTO THIS SECTION AND AT LINE 284
 var rowCount=5;
 
 app.get('/get-articles', function (req, res) {
@@ -421,6 +429,22 @@ app.get('/introduction', function (req, res) {
                   Did my schooling in SJTSJV
 
                 </p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
               </div>
                 <hr/>
                 <div class="container-fluid bg-3 text-center">
@@ -455,8 +479,6 @@ app.get('/introduction', function (req, res) {
           </html>
 `);
 });
-
-
 
 app.post('/pcomment',function(req,res){
   var content=req.body.data;
@@ -503,16 +525,36 @@ app.post('/submit-article',function(req,res){
     }
   });
 
-app.post('/namebio',function(req,res){
-  var name=req.body.name;
-  var bio=req.body.bio;
-  pool.query('insert into "user" values ($1,$2)',[name,bio],function(err,res){
-  if(err){
-    res.status(500).send(err.toString());
+
+
+  app.get('/namebio',function(req,res){
+  if(req.session && req.session.auth && req.session.auth.userId){
+
+    pool.query('SELECT name, bio FROM "user" where id= $1' ,[req.session.auth.userId],function(err,result){
+      if (err) {
+         res.status(500).send(err.toString());
+      } else {
+
+           res.send(JSON.stringify(result.rows));
+      }
+    });
   }
-  else{
-    res.status(200).send('success');
-  }
+
   });
 
-});
+  app.post('/insertbio',function(req,res){
+    if(req.session && req.session.auth && req.session.auth.userId )
+    {
+      pool.query('update "user" set bio=($1),name=($2)',[req.body.bio,req.body.name],function(err,result){
+      if(err){
+        res.status(500).send(err.toString());
+      }
+      else{
+        res.send('Inserted Successfully inside the table');
+      }
+      });
+    }
+    else{
+      alert('Only logged in users can make there bio and name!');
+    }
+  });

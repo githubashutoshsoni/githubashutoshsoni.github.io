@@ -1,6 +1,6 @@
 function loadLoginForm () {
-    var loginHtml = `
 
+  var loginHtml = `
         <h2 >Login/Register to write your own article</h2>
         <div id="status"></div>
         <input class="form-control input-lg" type="text" id="username" placeholder="username" /><br>
@@ -24,6 +24,7 @@ function loadLoginForm () {
               if (request.status === 200) {
 
                        submit.value = 'Sucess!';
+                       loadbio();
                 }
                 else if (request.status === 400) {
                     alert('Empty credentials');
@@ -364,10 +365,83 @@ function loadrules()
 `
   return;
 }
+
+function loadprofile(){
+
+  var profile=document.getElementById("profile");
+  profile.onclick=function () {
+    var request = new XMLHttpRequest();
+    request.onreadystatechange = function () {
+        if (request.readyState === XMLHttpRequest.DONE) {
+            var details = document.getElementById('details');
+            if (request.status === 200) {
+                var content = '<ul>';
+                var profileData = JSON.parse(this.responseText);
+                for (var i=0; i< profileData.length; i++) {
+                    content += `<li>
+                    ${profileData[i].name}<br></li>
+                    <li>BIO:${profileData[i].bio}</li>
+
+                          `;
+                }
+                content += "</ul>"
+                details.innerHTML = content;
+            } else {
+                details.innerHTML('Oops! Could not load userdata!')
+            }
+        }
+    };
+
+    request.open('GET', '/namebio', true);
+    request.send(null);
+  }
+
+
+}
+function loadbio(){
+document.getElementById("details").innerHTML=`<textarea value="name!" id="name" placeholder="name"></textarea>
+<textarea value="enter your bio here" placeholder="Bio"  id="bio"></textarea>
+<button id="submit-bio">submit</button>
+`;
+
+document.getElementById('submit-bio').onclick=function(){
+
+
+      // Create a request object
+      var request = new XMLHttpRequest();
+
+      // Capture the response and store it in a variable
+      request.onreadystatechange = function () {
+        if (request.readyState === XMLHttpRequest.DONE) {
+            // Take some action
+
+            if (request.status === 200) {
+
+                     submit.value = 'Sucess!';
+              }
+              else{
+
+                alert('sorry !couldnt submit your bio');
+              }
+        }
+        // Not done yet
+      };
+
+      // Make the request
+      var name = document.getElementById('name').value;
+      var bio = document.getElementById('bio').value;
+      request.open('POST', '/insertbio', true);
+      request.setRequestHeader('Content-Type', 'application/json');
+      request.send(JSON.stringify({name: name, bio: bio}));
+      submit.value = 'submitting...';
+
+  };
+}
 loadrules();
 
 
 loadLogin();
 
-// Now this is something that we could have directly done on the server-side using templating too!
 loadArticles();
+
+loadprofile();
