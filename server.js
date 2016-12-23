@@ -1,19 +1,20 @@
 var express = require('express');
+var app = express();
+var xssFilters = require('xss-filters');
 var morgan = require('morgan');
 var path = require('path');
 var Pool = require('pg').Pool;
 var crypto = require('crypto');
 var bodyParser = require('body-parser');
 var session = require('express-session');
-var usern;
-var config = {
+var usern;var config = {
     user: 'githubashutoshsoni',
     database: 'githubashutoshsoni',
     host: 'db.imad.hasura-app.io',
     port: '5432',
     password: process.env.DB_PASSWORD
 };
-var app = express();
+
 app.use(morgan('combined'));
 app.use(bodyParser.json());
 app.use(session({
@@ -22,11 +23,12 @@ app.use(session({
 }));
 
 function createTemplate (data) {
+  xssFilters.inHTMLData(data);
     var title = data.title;
     var date = data.date;
     var heading = data.heading;
     var content = data.content;
-
+    var username=data.username;
     var htmlTemplate = `
     <html>
       <head>
@@ -76,7 +78,16 @@ function createTemplate (data) {
               </div>
               <br>
               <div id="content" class="container well well-sm ">
-                ${content}
+              <pre>
+              <blockquote>
+              <div id="test">
+              <script>
+              document.write(xssFilters.inHTMLData(${content}))
+              </script>
+              </div>
+                <footer> Written By ${username}<footer>
+                </blockquote>
+                </pre>
               </div>
               <hr/>
               <h4>Comments</h4>
@@ -93,6 +104,9 @@ function createTemplate (data) {
 
 
           </footer>
+
+          <script src="/ui/escape.js"></script>
+
           <script src="/ui/jquery.js"></script>
           <script type="text/javascript" src="/ui/article.js"></script>
       </body>
@@ -283,7 +297,7 @@ app.get('/get-articles', function (req, res) {
       if (err) {
           res.status(500).send(err.toString());
       } else {
-          res.send(JSON.stringify(result.rows));
+        res.send(JSON.stringify(result.rows));
       }
    });
 });
@@ -297,7 +311,8 @@ app.get('/less-articles', function (req, res) {
       if (err) {
           res.status(500).send(err.toString());
       } else {
-          res.send(JSON.stringify(result.rows));
+        res.send(JSON.stringify(result.rows));
+
       }
    });
 });
